@@ -1,0 +1,7 @@
+http:
+  host: "0.0.0.0"
+  port: "8102"
+clientSsl:
+  fileName: "devmss.jks"
+  keystorePassword: "![AU8WhvxzkL+anOwoM9ix8g==]"
+  privateKeyPassword: "![AU8WhvxzkL+anOwoM9ix8g==]"

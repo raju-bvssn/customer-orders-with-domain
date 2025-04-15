@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<domain:mule-domain
+    xmlns:secure-properties="http://www.mulesoft.org/schema/mule/secure-properties"
+    xmlns:tls="http://www.mulesoft.org/schema/mule/tls"
+    xmlns:http="http://www.mulesoft.org/schema/mule/http"
+    xmlns="http://www.mulesoft.org/schema/mule/core"
+    xmlns:domain="http://www.mulesoft.org/schema/mule/ee/domain"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/current/mule-tls.xsd 
+               http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+               http://www.mulesoft.org/schema/mule/ee/domain http://www.mulesoft.org/schema/mule/ee/domain/current/mule-domain-ee.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/secure-properties http://www.mulesoft.org/schema/mule/secure-properties/current/mule-secure-properties.xsd">
+
+    <http:listener-config
+        name="HTTP_Listener_config_domain_project">
+        <http:listener-connection
+            host="${http.host}"
+            port="${http.port}">
+        </http:listener-connection>
+    </http:listener-config>
+    <!-- configure here resource to be shared within the domain -->
+    <!-- Client SSL Certificate config -->
+    <global-property doc:name="Global Property" doc:id="d261a39f-2fd3-4e23-a6cf-48f19279826a" name="mule.env" value="dev" />
+    <global-property doc:name="Global Property" doc:id="4ac38e0e-d216-4c5d-b655-43b9e1a653af" name="mule.bg" value="hybrid" />
+    <configuration-properties doc:name="Configuration properties" doc:id="e4b99cd8-c2f4-4097-bbf6-ac1322ceaf12" file="properties/${mule.env}-${mule.bg}.yaml" />
+    <global-property doc:name="Global Property" doc:id="f1db50c7-488d-4ab3-b107-fc603b0b1538" name="mule.vault.key" value="mulesoft1301" />
+
+
+</domain:mule-domain>
