@@ -42,7 +42,7 @@ jobs:
         distribution: 'zulu'
         java-version: '17'
     - name: Build Domain Project with Maven
-      run: mvn -B package install --file ./hybrid-domain/pom.xml -DskipMunitTests
+      run: mvn -B install --file ./hybrid-domain/pom.xml -DskipMunitTests
 
     - name: Build Customer Orders with Maven
       run: mvn -B package --file ./customer-orders/pom.xml -DskipMunitTests
