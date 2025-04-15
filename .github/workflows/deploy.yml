@@ -42,7 +42,41 @@ jobs:
         distribution: 'zulu'
         java-version: '17'
     - name: Build Domain Project with Maven
-      run: mvn -B package --file ./hybrid-domain/pom.xml -DskipMunitTests
+      run: mvn -B install --file ./hybrid-domain/pom.xml -DskipMunitTests
 
     - name: Build Customer Orders with Maven
       run: mvn -B package --file ./customer-orders/pom.xml -DskipMunitTests
+
+    - name: Stamp artifact file name with commit hash
+      run: |
+        artifactName1=$(ls ./customer-orders/target/*.jar | head -1)
+        commitHash=$(git rev-parse --short "$GITHUB_SHA")
+        artifactName2=$(ls ./customer-orders/target/*.jar | head -1 | sed "s/.jar/-$commitHash.jar/g")
+        mv $artifactName1 $artifactName2
+
+    - name: Upload artifact 
+      uses: actions/upload-artifact@v4
+      with:
+          name: artifacts
+          path: ./customer-orders/target/*.jar
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:    
+    - name: Checkout this repo
+      uses: actions/checkout@v3
+    - name: Cache dependencies
+      uses: actions/cache@v3
+      with:
+        path: ~/.m2/repository
+        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+        restore-keys: |
+          ${{ runner.os }}-maven-
+    - uses: actions/download-artifact@v4
+      with:
+        name: artifacts
+    - name: Deploy to Dev
+      run: |
+        artifactName=$(ls *.jar | head -1)
+        mvn --file ./customer-orders/pom.xml deploy -DskipMunitTests -DmuleDeploy
