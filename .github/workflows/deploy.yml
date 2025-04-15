@@ -58,7 +58,7 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
           name: artifacts
-          path: target/*.jar
+          path: ./customer-orders/target/*.jar
 
   deploy:
     needs: build
