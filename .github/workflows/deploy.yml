@@ -79,4 +79,4 @@ jobs:
     - name: Deploy to Dev
       run: |
         artifactName=$(ls *.jar | head -1)
-        mvn deploy -DskipMunitTests -DmuleDeploy
+        mvn --file ./customer-orders/pom.xml deploy -DskipMunitTests -DmuleDeploy
