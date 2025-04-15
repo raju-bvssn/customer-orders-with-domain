@@ -1,0 +1,124 @@
+#%RAML 1.0
+securitySchemes:
+  basicAuth:
+    type: Basic Authentication
+    description: Username and Password are expected
+    describedBy:
+      responses:
+        "200":
+          body:
+            application/json:
+              example:
+                strict: true
+                value:
+                  success: "true"
+              type: object
+        "400":
+          body:
+            application/json:
+              example:
+                strict: true
+                value:
+                  success: "false"
+                  message: user and password are mandatory
+              type: object
+        "401":
+          body:
+            application/json:
+              example:
+                strict: true
+                value:
+                  success: "false"
+                  message: authentication failed
+              type: object
+title: customer-orders-sapi
+baseUri: /customer
+description: "This API create, delete, update and retrieve the customer orders "
+mediaType:
+  - application/json
+version: v1
+protocols:
+  - HTTP
+  - HTTPS
+/orders:
+  get:
+    displayName: Get Orders
+    responses:
+      "200":
+        body:
+          application/json:
+            example:
+              strict: true
+              value:
+                status: success
+                data:
+                  orders:
+                    -
+                      orderId: "123456"
+                      customerName: John Doe
+                      email: johndoe@example.com
+                      orderDate: 2025-01-29T14:30:00Z
+                      status: Shipped
+                      totalAmount: 150.75
+                      currency: USD
+                      items:
+                        -
+                          productId: P001
+                          productName: Wireless Mouse
+                          quantity: 2
+                          price: 25.5
+                        -
+                          productId: P002
+                          productName: Mechanical Keyboard
+                          quantity: 1
+                          price: 99.75
+                      shippingAddress:
+                        street: 123 Main St
+                        city: New York
+                        state: NY
+                        zip: "10001"
+                        country: USA
+                      trackingNumber: TRACK123456
+                      estimatedDelivery: 2025-02-02
+                    -
+                      orderId: "123457"
+                      customerName: Jane Smith
+                      email: janesmith@example.com
+                      orderDate: 2025-01-28T10:15:00Z
+                      status: Processing
+                      totalAmount: 75
+                      currency: USD
+                      items:
+                        -
+                          productId: P003
+                          productName: USB-C Charger
+                          quantity: 3
+                          price: 25
+                      shippingAddress:
+                        street: 456 Elm St
+                        city: Los Angeles
+                        state: CA
+                        zip: "90001"
+                        country: USA
+                      trackingNumber: null
+                      estimatedDelivery: 2025-02-05
+            type: object
+      "401": {}
+    securedBy:
+      - basicAuth
+  post:
+    displayName: Create Orders
+    responses:
+      "200":
+        body:
+          example:
+            strict: true
+            value:
+              status: success
+              message: order created successfully
+          type: object
+      "401": {}
+    securedBy:
+      - basicAuth
+securedBy:
+  - basicAuth
